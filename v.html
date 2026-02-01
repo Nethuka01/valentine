@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Valentine Surprise 💖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+       body {
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff9ccf, #ff758c, #ffb3d9, #ffd1dc);
+    background-size: 400% 400%;
+    animation: bgMove 20s ease infinite;
+    color: #fff;
+    position: relative;
+}
+
+#bgOverlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: url('https://i.pinimg.com/originals/0e/3e/eb/0e3eeb71ea61626373fe354b003226cb.gif') center/cover no-repeat;
+    background-size: cover;
+    opacity: 0.25; /* soft and romantic */
+    z-index: 0;
+}
+
+
+
+
+        @keyframes bgMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .heart {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.8);
+            transform: rotate(45deg);
+            animation: float 8s linear infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -7px;
+        }
+
+        .heart::after {
+            left: -7px;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(110vh) rotate(45deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-120vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        .section {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 600;
+        }
+
+        p {
+            margin-top: 16px;
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 40px;
+            font-size: 18px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            background: #fff;
+            color: #ff4f7b;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transform-origin: center;
+            /* important */
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
+        }
+
+        .infinity {
+            font-size: 72px;
+            margin: 20px 0;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                transform: scale(1.4);
+            }
+        }
+
+        .message {
+            font-size: 20px;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+<div id="bgOverlay"></div>
+
+    <script>
+        for (let i = 0; i < 35; i++) {
+            const h = document.createElement("div"); h.className = "heart";
+            h.style.left = Math.random() * 100 + "vw"; h.style.animationDuration = 6 + Math.random() * 6 + "s";
+            h.style.opacity = Math.random(); document.body.appendChild(h);
+        }
+    </script>
+
+    <section class="section" id="intro">
+        <div class="card">
+            <h1>Are you ready for something special? ♡</h1>
+            <p>I made this just for you</p>
+            <button onclick="startExperience()">Yes, I’m ready ✨</button>
+        </div>
+    </section>
+
+    <section class="section hidden" id="question">
+        <div class="card">
+            <h1 id="questionText">Will you be my Valentine? ♡</h1>
+            <div class="btn-row">
+                <button id="yesBtn" onclick="yesClicked()">Yes 💖</button>
+                <button id="noBtn">No 🙂</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section hidden" id="yesScreen">
+        <div class="card">
+            <h1>You said YES 🥰</h1>
+            <div class="infinity">∞</div>
+            <div class="message">
+                I love you endlessly.<br>
+                I’ll always be by your side —<br>
+                today, tomorrow, forever.
+            </div>
+        </div>
+    </section>
+
+    <audio id="music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const intro = document.getElementById("intro");
+        const question = document.getElementById("question");
+        const yesScreen = document.getElementById("yesScreen");
+        const yesBtn = document.getElementById("yesBtn");
+        const noBtn = document.getElementById("noBtn");
+        const questionText = document.getElementById("questionText");
+        const music = document.getElementById("music");
+
+        const noMessages = [
+            "Are you really sure? 🥺",
+            "Think again… my heart is fragile 💔",
+            "What if this is destiny? ✨",
+            "Even the stars say yes 🌟",
+            "Just one more thought… 💭",
+            "My heart says you mean yes 💕",
+            "Don’t break my heart like this 🥹",
+            "Maybe your finger slipped? 😳",
+            "Love is knocking… open the door 💌",
+            "Infinity is waiting for you ♾️",
+            "One more chance… 💖",
+            "I’ll wait, because you’re worth it 💘",
+            "Please… think of me 😘",
+            "Could it be… yes? 🥰",
+            "Your smile says yes already 🌹",
+            "The universe is cheering for you 🌌",
+            "I’ll be here forever, just for you ❤️",
+            "My heart skips a beat thinking of you 💓",
+            "It’s okay to say yes… 🫣", "Say yes, and make me happiest 💞",
+            "Are you sure that’s your final answer? 🥺✨",
+            "My heart is quietly hoping you’ll say yes 💓",
+            "What if this moment changes everything? 💫",
+            "I can feel a yes coming… can you? 😌💕",
+            "Even my heartbeat is waiting for you 💘",
+            "Just listen to your heart for a second 🫶",
+            "I promise, saying yes feels really nice 🥰",
+            "This could be our little forever moment ♾️❤️",
+            "My heart already chose you 💖",
+            "Don’t leave my heart hanging like this 🥹💗",
+            "Every part of me is hoping for a yes 🌷",
+            "If love had a voice, it would say yes 💌",
+            "Take my hand… just imagine it 🤍✨",
+            "One tiny yes can mean so much 💞",
+            "I’m right here, waiting softly for you 🫣💓",
+            "Your heart knows the answer already 🌹",
+            "This feels too special to be a no 💫❤️",
+            "Say yes… I’ll take care of your heart 💖",
+            "I believe in us, even right now 🥰✨"
+        ];
+
+        let noCount = 0;
+        let yesScale = 1;
+
+        function startExperience() {
+            intro.classList.add("hidden");
+            question.classList.remove("hidden");
+            music.volume = 0.7; music.play();
+        }
+
+        noBtn.addEventListener("click", () => {
+            noCount++;
+            questionText.textContent = noMessages[noCount % noMessages.length];
+            yesScale += 0.1;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            noBtn.style.transform = `translate(${Math.random() * 30 - 15}px,${Math.random() * 30 - 15}px) scale(0.95)`;
+        });
+
+        function yesClicked() {
+            question.classList.add("hidden");
+            yesScreen.classList.remove("hidden");
+        }
+    </script>
+</body>
+
+</html>
